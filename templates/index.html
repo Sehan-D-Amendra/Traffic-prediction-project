@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            background-image: url('{{ url_for('static', filename='images/no_traffic.jpg') }}');
+        }
+        body.busy-traffic {
+            background-image: url('{{ url_for('static', filename='images/busy_traffic.jpg') }}');
+        }
+        body.heavy-traffic {
+            background-image: url('{{ url_for('static', filename='images/heavy_traffic.jpg') }}');
+        }
+        body.worst-traffic {
+            background-image: url('{{ url_for('static', filename='images/worst_traffic.jpg') }}');
+        }
+
+
+    </style>
+
+
+</head>
+<body class="{{ traffic_class }}">
+    <div class="container">
+        <h2>Traffic Volume Prediction</h2>
+        <form action="/predict" method="post">
+            <div>
+                <label>Is Holiday:</label>
+                <select name="is_holiday" required>
+                    <option value="0">Not a Holiday</option>
+                    <option value="1">Holiday</option>
+                </select>
+            </div>
+            <div>
+                <label>Temperature (°F):</label>
+                <input type="number" step="0.01" name="temperature" required>
+            </div>
+            <div>
+                <label>Date:</label>
+                <input type="date" name="date" required>
+            </div>
+            <div>
+                <label>Hour:</label>
+                <input type="number" name="hour" min="0" max="23" required>
+            </div>
+            <div>
+                <label>Weather Type:</label>
+                <select name="weather_type" required>
+                    <option value="1">Rain</option>
+                    <option value="2">Clouds</option>
+                    <option value="3">Clear</option>
+                    <option value="4">Snow</option>
+                    <option value="5">Mist</option>
+                    <option value="6">Drizzle</option>
+                    <option value="7">Haze</option>
+                    <option value="8">Thunderstorm</option>
+                    <option value="9">Fog</option>
+                    <option value="10">Smoke</option>
+                    <option value="11">Squall</option>
+                </select>
+            </div>
+            <div>
+                <label>Weather Description:</label>
+                <select name="weather_description" required>
+                    <option value="1">light rain</option>
+                    <option value="2">few clouds</option>
+                    <option value="3">Sky is Clear</option>
+                    <option value="4">light snow</option>
+                    <option value="5">sky is clear</option>
+                    <option value="6">mist</option>
+                    <option value="7">broken clouds</option>
+                    <option value="8">moderate rain</option>
+                    <option value="9">drizzle</option>
+                    <option value="10">overcast clouds</option>
+                    <option value="11">scattered clouds</option>
+                    <option value="12">haze</option>
+                    <option value="13">proximity thunderstorm</option>
+                    <option value="14">light intensity drizzle</option>
+                    <option value="15">heavy snow</option>
+                    <option value="16">heavy intensity rain</option>
+                    <option value="17">fog</option>
+                    <option value="18">heavy intensity drizzle</option>
+                    <option value="19">shower snow</option>
+                    <option value="20">snow</option>
+                    <option value="21">thunderstorm with rain</option>
+                    <option value="22">thunderstorm with heavy rain</option>
+                    <option value="23">thunderstorm with light rain</option>
+                    <option value="24">proximity thunderstorm with rain</option>
+                    <option value="25">thunderstorm with drizzle</option>
+                    <option value="26">smoke</option>
+                    <option value="27">thunderstorm</option>
+                    <option value="28">proximity shower rain</option>
+                    <option value="29">very heavy rain</option>
+                    <option value="30">proximity thunderstorm with drizzle</option>
+                    <option value="31">light rain and snow</option>
+                    <option value="32">light intensity shower rain</option>
+                    <option value="33">SQUALLS</option>
+                    <option value="34">shower drizzle</option>
+                    <option value="35">thunderstorm with light drizzle</option>
+                </select>
+            </div>
+            <div>
+                <button type="submit">Predict</button>
+            </div>
+        </form>
+        {% if prediction_text %}
+            <h3>{{ prediction_text }}</h3>
+            <h3>{{ traffic_status }}</h3>
+        {% endif %}
+    </div>
+</body>
+</html>
